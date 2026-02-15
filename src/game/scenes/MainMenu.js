@@ -12,58 +12,37 @@ export class MainMenu extends Scene
 
     create ()
     {
-        this.add.image(512, 384, 'background');
+        if (this.textures.exists('background')) {
+            this.add.image(512, 384, 'background');
+        } else {
+            this.add.rectangle(512, 384, 1024, 768, 0x2a1810).setDepth(0);
+        }
 
-        this.logo = this.add.image(512, 300, 'logo').setDepth(100);
+        this.add.text(512, 280, 'The Tavern', {
+            fontFamily: 'monospace', fontSize: 40, color: '#e8d5a3',
+            stroke: '#5c3317', strokeThickness: 2,
+        }).setOrigin(0.5).setDepth(100);
 
-        this.add.text(512, 460, 'Main Menu', {
-            fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 8,
-            align: 'center'
-        }).setDepth(100).setOrigin(0.5);
-        
+        this.add.text(512, 360, 'Run your inn • Decorate • Send heroes on quests', {
+            fontFamily: 'monospace', fontSize: 16, color: '#8b7355',
+        }).setOrigin(0.5).setDepth(100);
+
+        const startBtn = this.add.rectangle(512, 480, 220, 40, 0x5c3317, 1)
+            .setStrokeStyle(2, 0x8b6914)
+            .setInteractive({ useHandCursor: true })
+            .setDepth(100);
+        this.add.text(512, 480, 'Open Tavern', {
+            fontFamily: 'monospace', fontSize: 20, color: '#e8d5a3',
+        }).setOrigin(0.5).setDepth(101);
+        startBtn.on('pointerdown', () => this.scene.start('CharacterCreate'));
+
         EventBus.emit('current-scene-ready', this);
     }
 
     changeScene ()
     {
-        if (this.logoTween)
-        {
-            this.logoTween.stop();
-            this.logoTween = null;
-        }
-
-        this.scene.start('Game');
+        this.scene.start('CharacterCreate');
     }
 
-    moveLogo (vueCallback)
-    {
-        if (this.logoTween)
-        {
-            if (this.logoTween.isPlaying())
-            {
-                this.logoTween.pause();
-            }
-            else
-            {
-                this.logoTween.play();
-            }
-        }
-        else
-        {
-            this.logoTween = this.tweens.add({
-                targets: this.logo,
-                x: { value: 750, duration: 3000, ease: 'Back.easeInOut' },
-                y: { value: 80, duration: 1500, ease: 'Sine.easeOut' },
-                yoyo: true,
-                repeat: -1,
-                onUpdate: () => {
-                    vueCallback({
-                        x: Math.floor(this.logo.x),
-                        y: Math.floor(this.logo.y)
-                    });
-                }
-            });
-        }
-    }
+    moveLogo () {}
 }

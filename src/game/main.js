@@ -1,24 +1,24 @@
 import { Boot } from './scenes/Boot';
-import { Game } from './scenes/Game';
-import { GameOver } from './scenes/GameOver';
+import { CharacterCreate } from './scenes/CharacterCreate';
 import { MainMenu } from './scenes/MainMenu';
 import Phaser from 'phaser';
 import { Preloader } from './scenes/Preloader';
+import { Tavern } from './scenes/Tavern';
 
-// Find out more information about the Game Config at:
-// https://docs.phaser.io/api-documentation/typedef/types-core#gameconfig
 const config = {
     type: Phaser.AUTO,
     width: 1024,
     height: 768,
     parent: 'game-container',
-    backgroundColor: '#028af8',
+    backgroundColor: '#1a0f0a',
+    pixelArt: true,
+    roundPixels: true,
     scene: [
         Boot,
         Preloader,
         MainMenu,
-        Game,
-        GameOver
+        CharacterCreate,
+        Tavern
     ]
 };
 
